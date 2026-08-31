@@ -13,6 +13,7 @@ import pandas as pd
 import numpy as np
 import streamlit as st
 import urllib3
+import plotly.graph_objects as go
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -158,33 +159,31 @@ else:
         col3.metric("Índice de calidad", f"{indice_calidad} / 100")
         col4.metric("Outliers detectados", n_outliers)
 
-       # --- Gráfico de la serie ---
-st.subheader("Serie de nivel")
-import plotly.graph_objects as go
+        # --- Gráfico de la serie ---
+        st.subheader("Serie de nivel")
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(
+            x=df["fecha"],
+            y=df["nivel"],
+            mode='lines',
+            line=dict(color='#FF6692', width=3),
+            fill='tozeroy',
+            fillcolor='rgba(255, 102, 146, 0.2)',
+            name='Nivel'
+        ))
 
-fig = go.Figure()
-fig.add_trace(go.Scatter(
-    x=df["fecha"],
-    y=df["nivel"],
-    mode='lines',
-    line=dict(color='#FF6692', width=3),
-    fill='tozeroy',
-    fillcolor='rgba(255, 102, 146, 0.2)',
-    name='Nivel'
-))
+        fig.update_layout(
+            title="Nivel de la estación en el tiempo",
+            xaxis_title="Fecha",
+            yaxis_title="Nivel (cm)",
+            hovermode='x unified',
+            template='plotly_dark',  # Tema oscuro
+            plot_bgcolor='#111111',
+            paper_bgcolor='#111111',
+            font=dict(color='#FAFAFA')
+        )
 
-fig.update_layout(
-    title="Nivel de la estación en el tiempo",
-    xaxis_title="Fecha",
-    yaxis_title="Nivel (cm)",
-    hovermode='x unified',
-    template='plotly_dark',  # Tema oscuro
-    plot_bgcolor='#111111',
-    paper_bgcolor='#111111',
-    font=dict(color='#FAFAFA')
-)
-
-st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True)
 
         # --- Mapa de la estación ---
         st.subheader("Ubicación de la estación")
