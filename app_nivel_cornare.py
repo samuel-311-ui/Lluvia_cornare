@@ -124,7 +124,7 @@ st.title("💧 Nivel de quebrada La Honda - Guarne — CORNARE")
 st.caption(f"Estudiante: **{nombre_estudiante}** · Estación: **{codigo_estacion}**")
 
 # ------------------------------------------------------------------
-# Consulta y procesamiento automático (sin botón)
+# Consulta automática
 # ------------------------------------------------------------------
 with st.spinner("Consultando la API..."):
     datos_crudos, error = obtener_serie_nivel(codigo_estacion, fecha_desde, fecha_hasta, calidad)
